@@ -1,7 +1,8 @@
 // TODO: Include packages needed for this application
 const inquirer = require('inquirer')
 const fs = require('fs')
-const markdownFile = require('./utils/generateMarkdown')
+const markdownFile = require('./utils/generateMarkdown.js');
+const generateMarkdown = require('./utils/generateMarkdown.js');
 
 // TODO: Create an array of questions for user input
 const questions = [
@@ -43,7 +44,7 @@ const questions = [
 {
     type:'list',
     message:'What is the license that will be attatched to this project ?',
-    options: ['MIT',''],
+    options: ['MIT License','Mozilla Public License 2.0','Apache License 2.0','Boost Software License 1.0'],
     name:'License',
 },
 {
@@ -59,10 +60,16 @@ const questions = [
 
 ];
 // TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
+function createFile (data) {
+    const readMeInput = generateMarkdown(data)
+    fs.writeFile('README.md',readMeInput, (err) =>
+    err ? console.error(err) : console.log("README.md is complete, check the .md file for finished product")
+)
+}
+// TODO: Function call to initialize the application
+const init = function () {
+    inquirer.createPromptModule(questions)
+    .then((data) => createFile(data))
+}
 
-// TODO: Create a function to initialize app
-function init() {}
-
-// Function call to initialize app
-init();
+init()
